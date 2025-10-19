@@ -1,0 +1,36 @@
+name: Release to Master
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-master-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version from branch
+        id: version
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/release/}
+          VERSION=${BRANCH_NAME#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request to master
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          TITLE="Release v${VERSION} to master"
+          BODY="Automated PR for releasing version ${VERSION} to master"
+          gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}"
+          PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
+          gh pr review $PR_NUMBER --approve
+          gh pr merge $PR_NUMBER --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-name: CI - Feature Branches
+name: Feature Branch CI
 
 on:
   push:
@@ -98,10 +98,14 @@ jobs:
           TITLE="Merge ${BRANCH_NAME} into develop"
           BODY="Automated PR for feature branch ${BRANCH_NAME}"
           # Check if PR already exists
-          if gh pr list --head ${BRANCH_NAME} --base develop --json number | jq -e '. | length > 0' > /dev/null; then
-            echo "PR already exists"
-          else
-            gh pr create --base develop --head ${BRANCH_NAME} --title "${TITLE}" --body "${BODY}"
+          PR_EXISTS=$(gh pr list --head ${BRANCH_NAME} --base develop --json number | jq -r '.[0].number')
+          if [ "$PR_EXISTS" != "null" ] && [ -n "$PR_EXISTS" ]; then
+            echo "PR #$PR_EXISTS already exists, closing it"
+            gh pr close $PR_EXISTS --comment "Closing to create updated PR"
           fi
+          gh pr create --base develop --head ${BRANCH_NAME} --title "${TITLE}" --body "${BODY}"
+          PR_NUMBER=$(gh pr list --head ${BRANCH_NAME} --base develop --json number -q '.[0].number')
+          gh pr review $PR_NUMBER --approve
+          gh pr merge $PR_NUMBER --merge
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

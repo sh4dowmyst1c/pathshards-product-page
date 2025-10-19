@@ -1,4 +1,4 @@
-name: Create Release Branch
+name: Develop to Release
 
 on:
   push:
@@ -55,11 +55,14 @@ jobs:
           git commit -m "Bump version to ${VERSION}"
           git push --force origin release/v${VERSION}
 
-      - name: Create Pull Request to master
+      - name: Create Pull Request to release branch
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          TITLE="Release v${VERSION}"
-          BODY="Automated release PR for version ${VERSION}"
-          gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}"
+          TITLE="Merge develop into release v${VERSION}"
+          BODY="Automated PR for merging develop into release branch ${VERSION}"
+          gh pr create --base release/v${VERSION} --head develop --title "${TITLE}" --body "${BODY}"
+          PR_NUMBER=$(gh pr list --head develop --base release/v${VERSION} --json number -q '.[0].number')
+          gh pr review $PR_NUMBER --approve
+          gh pr merge $PR_NUMBER --merge
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
