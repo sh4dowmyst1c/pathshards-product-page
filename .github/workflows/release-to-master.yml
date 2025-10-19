@@ -5,6 +5,10 @@ on:
     branches:
       - 'release/**'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: false
 
 permissions:
   contents: write
@@ -20,7 +24,14 @@ jobs:
 
       - name: Get version from branch
         id: version
-        run: echo "version=${GITHUB_REF#refs/heads/release/}" | sed 's/^v//' >> $GITHUB_OUTPUT
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION=${{ github.event.inputs.version }}
+          else
+            VERSION=${GITHUB_REF#refs/heads/release/}
+            VERSION=${VERSION#v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request to master
         run: |
