@@ -1,10 +1,8 @@
-FROM node:18-alpine
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:18
 
-RUN apk add --no-cache make git openssh-client
+RUN apt-get update && apt-get install -y make git openssh-client && rm -rf /var/lib/apt/lists/*
 
-# Configure git
-RUN git config --global user.name "PathShards" && 
-    git config --global user.email "business@pathshards.com"
+RUN git config --global user.name "PathShards" && git config --global user.email "business@pathshards.com"
 
 WORKDIR /app
 
