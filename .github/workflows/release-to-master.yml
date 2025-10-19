@@ -35,6 +35,23 @@ jobs:
           if [ "$PR_EXISTS" != "null" ] && [ -n "$PR_EXISTS" ]; then
             echo "PR #$PR_EXISTS already exists, closing it"
             gh pr close $PR_EXISTS --comment "Closing to create updated PR"
+            # Wait for PR to be closed
+            TIMEOUT=10
+            COUNTER=0
+            while [ $COUNTER -lt $TIMEOUT ]; do
+              STATE=$(gh pr view $PR_EXISTS --json state -q .state)
+              if [ "$STATE" = "CLOSED" ]; then
+                echo "PR #$PR_EXISTS successfully closed"
+                break
+              fi
+              echo "Waiting for PR #$PR_EXISTS to close... ($COUNTER/$TIMEOUT)"
+              sleep 1
+              COUNTER=$((COUNTER + 1))
+            done
+            if [ $COUNTER -eq $TIMEOUT ]; then
+              echo "Timeout waiting for PR #$PR_EXISTS to close"
+              exit 1
+            fi
           fi
           gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
