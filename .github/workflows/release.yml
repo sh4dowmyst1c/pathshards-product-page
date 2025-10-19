@@ -1,0 +1,63 @@
+name: Create Release Branch
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Determine bump type
+        id: bump
+        run: |
+          # Check for breaking changes
+          if git log --oneline develop ^master | grep -i "breaking\|!" ; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          # Check for features
+          elif git log --oneline develop ^master | grep -i "feat:" ; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version
+        working-directory: ./app
+        run: npm version ${{ steps.bump.outputs.bump }} --no-git-tag-version
+
+      - name: Get version
+        id: version
+        working-directory: ./app
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Create release branch
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          git checkout -b release/v${VERSION}
+          git add app/package.json
+          git commit -m "Bump version to ${VERSION}"
+          git push origin release/v${VERSION}
+
+      - name: Create Pull Request to master
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          TITLE="Release v${VERSION}"
+          BODY="Automated release PR for version ${VERSION}"
+          gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}" --label "release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
