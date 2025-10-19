@@ -442,6 +442,10 @@
   left: 20px;
 }
 
+.carousel-btn.next {
+  right: 50px;
+}
+
 .promo-video {
   background: #1a1a1a;
   padding: 40px;
