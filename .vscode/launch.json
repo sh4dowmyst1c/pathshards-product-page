@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch React App",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/app/node_modules/.bin/craco",
+      "args": ["start"],
+      "cwd": "${workspaceFolder}/app",
+      "env": {
+        "BROWSER": "none"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/app/node_modules/.bin/craco",
+      "args": ["test", "--watchAll=false"],
+      "cwd": "${workspaceFolder}/app",
+      "console": "integratedTerminal"
+    }
+  ]
+}
