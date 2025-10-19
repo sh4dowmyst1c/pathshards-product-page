@@ -1,0 +1,23 @@
+{
+  "name": "React Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-json",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "dsznajder.es7-react-js-snippets",
+        "formulahendry.auto-rename-tag"
+      ]
+    }
+  }
+}
