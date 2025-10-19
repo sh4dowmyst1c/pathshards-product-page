@@ -1,4 +1,5 @@
 {
+  "jest.enable": true,
   "jest.rootPath": "app",
-  "jest.jestCommandLine": "npm test --"
+  "jest.jestCommandLine": "npx jest"
 }
