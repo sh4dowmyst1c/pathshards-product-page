@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import './Bonuses.css';
 
 function Bonuses() {
   return (

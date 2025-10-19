@@ -1,0 +1,26 @@
+.testimonials {
+  background: #0d0d0d !important;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  margin-bottom: 40px;
+}
+
+.testimonials h3 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.testimonial {
+  font-style: italic;
+  color: #cccccc;
+  margin-bottom: 20px;
+}
+
+.testimonial cite {
+  display: block;
+  text-align: right;
+  font-weight: bold;
+  color: #ffffff;
+}

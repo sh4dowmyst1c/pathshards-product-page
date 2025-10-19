@@ -1,0 +1,29 @@
+.faq {
+  background: #0d0d0d !important;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  margin-bottom: 40px;
+}
+
+.faq h3 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.faq details {
+  margin-bottom: 15px;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.faq p {
+  color: #cccccc;
+  margin: 0;
+}

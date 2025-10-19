@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import './Carousel.css';
 
 function Carousel({ currentSlide, setCurrentSlide, nextSlide, prevSlide }) {
 
