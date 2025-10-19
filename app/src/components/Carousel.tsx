@@ -1,7 +1,14 @@
 import React from 'react';
 import './Carousel.css';
 
-function Carousel({ currentSlide, setCurrentSlide, nextSlide, prevSlide }) {
+interface CarouselProps {
+  currentSlide: number;
+  setCurrentSlide: (value: number) => void;
+  nextSlide: () => void;
+  prevSlide: () => void;
+}
+
+function Carousel({ currentSlide, setCurrentSlide, nextSlide, prevSlide }: CarouselProps) {
 
   return (
     <section className="carousel">

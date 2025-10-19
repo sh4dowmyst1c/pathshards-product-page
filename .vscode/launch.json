@@ -5,7 +5,7 @@
       "name": "Launch React App",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/app/node_modules/.bin/craco",
+      "program": "${workspaceFolder}/app/node_modules/.bin/react-scripts",
       "args": ["start"],
       "cwd": "${workspaceFolder}/app",
       "env": {
@@ -17,7 +17,7 @@
       "name": "Debug Tests",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/app/node_modules/.bin/craco",
+      "program": "${workspaceFolder}/app/node_modules/.bin/react-scripts",
       "args": ["test", "--watchAll=false"],
       "cwd": "${workspaceFolder}/app",
       "console": "integratedTerminal"
