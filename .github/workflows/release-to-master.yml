@@ -32,7 +32,7 @@ jobs:
           BODY="Automated PR for releasing version ${VERSION} to master"
           gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
-          gh pr merge $PR_NUMBER --auto --merge --admin
+          gh pr merge $PR_NUMBER --merge --admin
           echo "Merged PR #$PR_NUMBER successfully"
           gh workflow run deploy-and-release.yml
         env:
