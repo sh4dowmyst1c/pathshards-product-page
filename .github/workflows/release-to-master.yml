@@ -25,6 +25,7 @@ jobs:
       - name: Get version from branch
         id: version
         run: |
+          echo "INPUT_VERSION=${{ github.event.inputs.version }}"
           if [ -n "${{ github.event.inputs.version }}" ]; then
             VERSION=${{ github.event.inputs.version }}
           else
@@ -65,6 +66,6 @@ jobs:
           PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
           gh pr merge $PR_NUMBER --merge --admin
           echo "Merged PR #$PR_NUMBER successfully"
-          gh workflow run "Deploy and Release"
+          gh workflow run deploy-and-release.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
