@@ -60,6 +60,6 @@ jobs:
           VERSION=${{ steps.version.outputs.version }}
           TITLE="Release v${VERSION}"
           BODY="Automated release PR for version ${VERSION}"
-          gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}" --label "release"
+          gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
