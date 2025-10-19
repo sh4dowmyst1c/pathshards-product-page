@@ -8,6 +8,7 @@ services:
     volumes:
       - ..:/app
       - /app/node_modules
+      - ${HOME}/.ssh:/root/.ssh
     environment:
       - NODE_ENV=development
     command: npm start
