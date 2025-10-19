@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -63,5 +64,7 @@ jobs:
           gh pr create --base release/v${VERSION} --head develop --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head develop --base release/v${VERSION} --json number -q '.[0].number')
           gh pr merge $PR_NUMBER --auto --merge --admin
+          echo "Merged PR #$PR_NUMBER successfully"
+          gh workflow run "Release to Master"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
