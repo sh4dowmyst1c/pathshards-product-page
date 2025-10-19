@@ -53,7 +53,7 @@ jobs:
           git checkout -b release/v${VERSION}
           git add app/package.json
           git commit -m "Bump version to ${VERSION}"
-          git push origin release/v${VERSION}
+          git push --force origin release/v${VERSION}
 
       - name: Create Pull Request to master
         run: |
