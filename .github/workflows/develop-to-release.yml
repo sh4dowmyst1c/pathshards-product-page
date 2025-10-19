@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 jobs:
   create-release:
@@ -61,9 +62,32 @@ jobs:
           VERSION=${{ steps.version.outputs.version }}
           TITLE="Merge develop into release v${VERSION}"
           BODY="Automated PR for merging develop into release branch ${VERSION}"
+          # Check if PR already exists
+          PR_EXISTS=$(gh pr list --head develop --base release/v${VERSION} --json number | jq -r '.[0].number')
+          if [ "$PR_EXISTS" != "null" ] && [ -n "$PR_EXISTS" ]; then
+            echo "PR #$PR_EXISTS already exists, closing it"
+            gh pr close $PR_EXISTS --comment "Closing to create updated PR"
+            # Wait for PR to be closed
+            TIMEOUT=10
+            COUNTER=0
+            while [ $COUNTER -lt $TIMEOUT ]; do
+              STATE=$(gh pr view $PR_EXISTS --json state -q .state)
+              if [ "$STATE" = "CLOSED" ]; then
+                echo "PR #$PR_EXISTS successfully closed"
+                break
+              fi
+              echo "Waiting for PR #$PR_EXISTS to close... ($COUNTER/$TIMEOUT)"
+              sleep 1
+              COUNTER=$((COUNTER + 1))
+            done
+            if [ $COUNTER -eq $TIMEOUT ]; then
+              echo "Timeout waiting for PR #$PR_EXISTS to close"
+              exit 1
+            fi
+          fi
           gh pr create --base release/v${VERSION} --head develop --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head develop --base release/v${VERSION} --json number -q '.[0].number')
-          gh pr merge $PR_NUMBER --auto --merge --admin
+          gh pr merge $PR_NUMBER --merge --admin
           echo "Merged PR #$PR_NUMBER successfully"
           gh workflow run "Release to Master"
         env:
