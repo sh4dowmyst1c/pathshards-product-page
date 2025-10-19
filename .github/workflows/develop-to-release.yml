@@ -62,6 +62,6 @@ jobs:
           BODY="Automated PR for merging develop into release branch ${VERSION}"
           gh pr create --base release/v${VERSION} --head develop --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head develop --base release/v${VERSION} --json number -q '.[0].number')
-          gh pr merge $PR_NUMBER --auto --merge
+          gh pr merge $PR_NUMBER --auto --merge --admin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

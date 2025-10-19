@@ -30,6 +30,6 @@ jobs:
           BODY="Automated PR for releasing version ${VERSION} to master"
           gh pr create --base master --head release/v${VERSION} --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
-          gh pr merge $PR_NUMBER --auto --merge
+          gh pr merge $PR_NUMBER --auto --merge --admin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
