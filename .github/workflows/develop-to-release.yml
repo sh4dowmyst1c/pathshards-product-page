@@ -62,6 +62,12 @@ jobs:
           VERSION=${{ steps.version.outputs.version }}
           TITLE="Merge develop into release v${VERSION}"
           BODY="Automated PR for merging develop into release branch ${VERSION}"
+          # Check if PR already exists
+          PR_EXISTS=$(gh pr list --head develop --base release/v${VERSION} --json number | jq -r '.[0].number')
+          if [ "$PR_EXISTS" != "null" ] && [ -n "$PR_EXISTS" ]; then
+            echo "PR #$PR_EXISTS already exists, closing it"
+            gh pr close $PR_EXISTS --comment "Closing to create updated PR"
+          fi
           gh pr create --base release/v${VERSION} --head develop --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head develop --base release/v${VERSION} --json number -q '.[0].number')
           gh pr merge $PR_NUMBER --merge --admin
