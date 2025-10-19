@@ -14,7 +14,7 @@ function Carousel({ currentSlide, setCurrentSlide, nextSlide, prevSlide }: Carou
     <section className="carousel">
       <h3>Jogos Criados por Alunos</h3>
       <div className="carousel-container">
-        <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+        <div className="carousel-slides" data-testid="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
           <div className="carousel-slide">
             <img src={`${process.env.PUBLIC_URL}/images/game1.jpg`} alt="Jogo 1" />
             <p>Plataforma 2D criada em Go</p>
