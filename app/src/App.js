@@ -24,19 +24,19 @@ function App() {
           <div className="carousel-container">
             <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
               <div className="carousel-slide">
-                <img src="/images/game1.jpg" alt="Jogo 1" />
+                <img src={`${process.env.PUBLIC_URL}/images/game1.jpg`} alt="Jogo 1" />
                 <p>Plataforma 2D criada em Go</p>
               </div>
               <div className="carousel-slide">
-                <img src="/images/game2.jpg" alt="Jogo 2" />
+                <img src={`${process.env.PUBLIC_URL}/images/game2.jpg`} alt="Jogo 2" />
                 <p>Puzzle game interativo</p>
               </div>
               <div className="carousel-slide">
-                <img src="/images/game3.jpg" alt="Jogo 3" />
+                <img src={`${process.env.PUBLIC_URL}/images/game3.jpg`} alt="Jogo 3" />
                 <p>Ação com física avançada</p>
               </div>
               <div className="carousel-slide">
-                <img src="/images/game4.jpg" alt="Jogo 4" />
+                <img src={`${process.env.PUBLIC_URL}/images/game4.jpg`} alt="Jogo 4" />
                 <p>Jogo multiplayer básico</p>
               </div>
             </div>
@@ -65,12 +65,12 @@ function App() {
             <button className="cta-button">Inscreva-se Agora</button>
           </div>
           <div className="hero-image">
-            <img src="/images/course.jpg" alt="Curso de Jogos com Go e Ebiten" />
+            <img src={`${process.env.PUBLIC_URL}/images/course.jpg`} alt="Curso de Jogos com Go e Ebiten" />
           </div>
         </section>
         <section className="promo-video">
           <video controls width="100%" height="400">
-            <source src="/videos/course.mp4" type="video/mp4" />
+            <source src={`${process.env.PUBLIC_URL}/videos/course.mp4`} type="video/mp4" />
             Seu navegador não suporta o elemento de vídeo.
           </video>
         </section>
@@ -127,7 +127,7 @@ function App() {
         <section className="instructor">
           <h3>Sobre o Instrutor</h3>
           <div className="instructor-card">
-            <img src="/images/instructor.jpg" alt="Instrutor Alex Silva" />
+            <img src={`${process.env.PUBLIC_URL}/images/instructor.jpg`} alt="Instrutor Alex Silva" />
             <div className="instructor-info">
               <h4>Alex Silva</h4>
               <p className="instructor-title">Desenvolvedor de Jogos & Especialista em Go</p>

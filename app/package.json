@@ -1,6 +1,7 @@
 {
   "name": "pathshards-product-page",
   "version": "0.1.0",
+  "homepage": "https://sh4dowmyst1c.github.io/pathshards-product-page",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",

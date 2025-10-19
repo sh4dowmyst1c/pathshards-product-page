@@ -2,16 +2,17 @@ FROM node:18-alpine
 
 RUN apk add --no-cache make git openssh-client
 
+# Configure git
+RUN git config --global user.name "PathShards" && 
+    git config --global user.email "business@pathshards.com"
+
 WORKDIR /app
 
-# Copy package files from the `app` subfolder where package.json actually lives
-COPY app/package*.json ./
+COPY package*.json ./
 
-# Install dependencies
 RUN npm install
 
-# Copy application source from the `app` folder into the container
-COPY app/ ./
+COPY . .
 
 EXPOSE 3000
 
