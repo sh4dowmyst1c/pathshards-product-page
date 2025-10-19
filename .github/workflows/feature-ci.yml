@@ -105,6 +105,6 @@ jobs:
           fi
           gh pr create --base develop --head ${BRANCH_NAME} --title "${TITLE}" --body "${BODY}"
           PR_NUMBER=$(gh pr list --head ${BRANCH_NAME} --base develop --json number -q '.[0].number')
-          gh pr merge $PR_NUMBER --merge
+          gh pr merge $PR_NUMBER --auto
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
