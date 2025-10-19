@@ -33,6 +33,6 @@ jobs:
           PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
           gh pr merge $PR_NUMBER --auto --merge --admin
           echo "Merged PR #$PR_NUMBER successfully"
-          gh workflow run deploy-and-release.yml
+          gh workflow run "Deploy and Release"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
