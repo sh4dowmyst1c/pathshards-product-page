@@ -20,10 +20,7 @@ jobs:
 
       - name: Get version from branch
         id: version
-        run: |
-          BRANCH_NAME=${GITHUB_REF#refs/heads/release/}
-          VERSION=${BRANCH_NAME#v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        run: echo "version=${GITHUB_REF#refs/heads/release/}" | sed 's/^v//' >> $GITHUB_OUTPUT
 
       - name: Create Pull Request to master
         run: |
