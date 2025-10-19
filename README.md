@@ -132,4 +132,4 @@ Para mais informações sobre o curso, visite [PathShards](https://pathshards.co
 
 ## Agradecimentos
 
-Agradecemos a todos os alunos e colaboradores que tornaram este projeto possível.
+Agradecemos a todos os alunos e colaboradores que tornaram este projeto possível!
