@@ -5,6 +5,10 @@ on:
     branches:
       - 'release/**'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: false
 
 permissions:
   contents: write
@@ -20,7 +24,15 @@ jobs:
 
       - name: Get version from branch
         id: version
-        run: echo "version=${GITHUB_REF#refs/heads/release/}" | sed 's/^v//' >> $GITHUB_OUTPUT
+        run: |
+          echo "INPUT_VERSION=${{ github.event.inputs.version }}"
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION=${{ github.event.inputs.version }}
+          else
+            VERSION=${GITHUB_REF#refs/heads/release/}
+            VERSION=${VERSION#v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request to master
         run: |
@@ -54,6 +66,6 @@ jobs:
           PR_NUMBER=$(gh pr list --head release/v${VERSION} --base master --json number -q '.[0].number')
           gh pr merge $PR_NUMBER --merge --admin
           echo "Merged PR #$PR_NUMBER successfully"
-          gh workflow run "Deploy and Release"
+          gh workflow run deploy-and-release.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
