@@ -129,3 +129,7 @@ Este projeto é licenciado sob a MIT License. Consulte o arquivo LICENSE para ma
 ## Contato
 
 Para mais informações sobre o curso, visite [PathShards](https://pathshards.com) ou entre em contato conosco.
+
+## Agradecimentos
+
+Agradecemos a todos os alunos e colaboradores que tornaram este projeto possível.
