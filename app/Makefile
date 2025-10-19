@@ -1,18 +1,19 @@
-# Instala as dependências do projeto
 install:
 	npm install
 
-# Executa os testes em modo headless (sem watch), passando se não houver testes
 test:
 	npm test -- --watchAll=false --passWithNoTests
 
-# Faz o build da aplicação para produção
+cover:
+	npm run coverage
+
+lint:
+	npm run lint
+
 build:
 	npm run build
 
-# Remove node_modules e pasta build para limpeza
 clean:
-	rm -rf node_modules build
+	rm -rf node_modules build coverage
 
-# Validação completa: instala, testa e builda
-validate: install test build
+validate: install lint cover build
