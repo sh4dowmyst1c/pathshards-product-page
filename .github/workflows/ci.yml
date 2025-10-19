@@ -97,6 +97,11 @@ jobs:
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
           TITLE="Merge ${BRANCH_NAME} into develop"
           BODY="Automated PR for feature branch ${BRANCH_NAME}"
-          gh pr create --base develop --head ${BRANCH_NAME} --title "${TITLE}" --body "${BODY}" || echo "PR already exists or failed to create"
+          # Check if PR already exists
+          if gh pr list --head ${BRANCH_NAME} --base develop --json number | jq -e '. | length > 0' > /dev/null; then
+            echo "PR already exists"
+          else
+            gh pr create --base develop --head ${BRANCH_NAME} --title "${TITLE}" --body "${BODY}"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
